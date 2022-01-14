@@ -1,14 +1,14 @@
 import { useSession, signIn, signOut } from 'next-auth/react'
 import { useQuery, gql, useMutation } from '@apollo/client'
 
-// const QUERY = gql`
-//   query Query {
-//     users {
-//       id
-//       name
-//     }
-//   }
-// `;
+const QUERY = gql`
+	query Query {
+		users {
+			id
+			name
+		}
+	}
+`
 
 const MUTATION = gql`
 	mutation createHabit($name: String!) {
@@ -21,18 +21,18 @@ const MUTATION = gql`
 
 export default function Home() {
 	const { data: session } = useSession()
-	// const { data, loading, error } = useQuery(QUERY);
+	const { data, loading, error } = useQuery(QUERY)
 	const [createHabit, { d, l, e }] = useMutation(MUTATION)
 
-	// if (loading) {
-	//   return <>loading</>;
-	// }
+	if (loading) {
+		return <>loading</>
+	}
 
-	// if (error) {
-	//   return <>error</>;
-	// }
+	if (error) {
+		return <>error</>
+	}
 
-	// const { users } = data;
+	const { users } = data
 
 	if (session) {
 		return (
@@ -44,13 +44,13 @@ export default function Home() {
 					test
 				</button>
 				<button onClick={() => signOut()}>Sign out</button>
-				{/* {users.map(item => (
-          <div>
-            {item.email}
-            {item.name}
-            {item.id}
-          </div>
-        ))} */}
+				{users.map((item) => (
+					<div>
+						{item.email}
+						{item.name}
+						{item.id}
+					</div>
+				))}
 			</>
 		)
 	}
