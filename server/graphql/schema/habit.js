@@ -1,23 +1,27 @@
 import { gql } from 'apollo-server'
 
 export const habitTypeDefs = gql`
-	type Query {
-		habits: [Habit]
-		habit(id: ID!): Habit
-	}
-
-	type Mutation {
-		createHabit(name: String!): Habit
-		updateHabit(id: ID!, name: String!): Habit
-		deleteHabit(id: ID!): Habit
-	}
-
 	type Habit {
 		id: ID!
 		name: String
 		records: [Record]
 		users: [User]
 		groups: [Group]
+	}
+
+	type Query {
+		habits: [Habit]
+		habit(id: ID!): Habit
+	}
+
+	input HabitInput {
+		name: String!
+	}
+
+	type Mutation {
+		createHabit(input: HabitInput): Habit
+		updateHabit(id: ID!, input: HabitInput): Habit
+		deleteHabit(id: ID!): Habit
 	}
 `
 
@@ -30,7 +34,6 @@ export const habitResolvers = {
 			return context.prisma.habit.findUnique({
 				where: {
 					id: args.id,
-					name: args.name,
 				},
 			})
 		},
@@ -39,7 +42,7 @@ export const habitResolvers = {
 		createHabit: (parent, args, context) => {
 			return context.prisma.habit.create({
 				data: {
-					name: args.name,
+					name: args.input.name,
 				},
 			})
 		},
@@ -49,7 +52,7 @@ export const habitResolvers = {
 					id: args.id,
 				},
 				data: {
-					name: args.name,
+					name: args.input.name,
 				},
 			})
 		},
