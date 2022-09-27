@@ -1,0 +1,61 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: "Helvetica";
+	margin-top: 0;
+	margin-bottom: 1rem;
+	line-height: 1.5;
+}
+
+h1 {
+	@include font-size(3rem);
+}
+
+h2 {
+	@include font-size(2rem);
+}
+
+h3 {
+	@include font-size(1.5rem);
+}
+
+h4 {
+	@include font-size(1.25rem);
+}
+
+h5 {
+	@include font-size(1rem);
+}
+
+p {
+	color: $neutral-6;
+	margin-bottom: 1.5em;
+	margin-top: 0;
+	line-height: 1.75;
+}
+
+.longform {
+	font-family: "Source Serif Pro";
+	font-size: 1.25rem;
+
+	strong {
+		color: $black;
+	}
+}
+
+a {
+	color: $action-default;
+	text-decoration: none;
+
+	&:hover {
+		text-decoration: none;
+		color: $action-hover;
+	}
+
+	// &:visited {
+	//     color: $action-active;
+	// }
+}

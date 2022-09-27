@@ -1,0 +1,48 @@
+//colors
+// neutrals
+$white: #fff;
+$black: #333333;
+
+$neutral-1: #fafafa;
+$neutral-2: #f4f4f4;
+$neutral-3: #eaeaea;
+$neutral-4: #d9d9d9;
+$neutral-5: #bababa;
+$neutral-6: #939393;
+$neutral-7: #6f6f6f;
+$neutral-8: #4f4f4f;
+$neutral-9: #313131;
+
+// primary color
+$primary-0: #96c0da;
+$primary-1: #3b7fa8;
+$primary-2: #26648b;
+$primary-3: #265674;
+$primary-4: #1a2a3f;
+$primary-5: #3a4856;
+
+$accent-1: #e69c24;
+$accent-2: #ffca55;
+
+$action-default: #136bde;
+$action-hover: #0e4d9f;
+$action-active: #093063;
+
+//breakpoints
+$breakpoint-small: 375px;
+$breakpoint-medium: 600px;
+$breakpoint-large: 900px;
+$breakpoint-extra-large: 1200px;
+
+//elevations
+$elevation-0: 0 0.05rem 1rem -0.5rem rgba($black, 0.5);
+$elevation-1: 0 0.1rem 3rem rgba($black, 0.08);
+$elevation-2: 0 0.5rem 5rem -1rem rgba($black, 0.16);
+$elevation-3: 0 0.5rem 8rem -0.5rem rgba($black, 0.16);
+$elevationText-0: 0 0.05rem 1rem rgba($black, 0.5);
+$elevationText-1: 0 0.1rem 3rem rgba($black, 0.08);
+$elevationText-2: 0 0.5rem 5rem rgba($black, 0.16);
+$elevationText-3: 0 0.5rem 8rem rgba($black, 0.16);
+
+$translateY: 3px;
+$translateX: 5px;

@@ -5,9 +5,12 @@ export const userTypeDefs = gql`
 		id: ID!
 		email: String
 		name: String
-		groups: [Group]
-		habits: [Habit]
 		records: [Record]
+		groups: [Group]
+		image: String
+		friends: [User]
+		inFriendRequest: [User]
+		outFriendRequest: [User]
 	}
 
 	type Query {
@@ -19,13 +22,15 @@ export const userTypeDefs = gql`
 	input UserInput {
 		name: String
 		groupIds: [ID]
-		habitIds: [ID]
 		recordIds: [ID]
+		friendIds: [ID]
+		inFriendRequestsIds: [ID]
+		outFriendRequestIds: [ID]
 	}
 
 	type Mutation {
 		updateUser(id: ID!, input: UserInput): User
-		# deleteUser(id: ID!): User
+		deleteUser(id: ID!): User
 	}
 `
 
@@ -55,19 +60,37 @@ export const userResolvers = {
 							}
 						}),
 					},
-					habits: {
-						set: args.input.habitIds.map((habitId) => {
-							return {
-								id: habitId,
-							}
-						}),
-					},
 					records: {
 						set: args.input.recordIds.map((recordId) => {
 							return {
 								id: recordId,
 							}
 						}),
+					},
+					friends: {
+						set: args.input.friendIds.map((friendId) => {
+							return {
+								id: friendId,
+							}
+						}),
+					},
+					inFriendRequest: {
+						set: args.input.inFriendRequestIds.map(
+							(inFriendRequestId) => {
+								return {
+									id: inFriendRequestId,
+								}
+							}
+						),
+					},
+					outFriendRequest: {
+						set: args.input.outFriendRequest.map(
+							(outFriendRequestId) => {
+								return {
+									id: outFriendRequestId,
+								}
+							}
+						),
 					},
 				},
 			})

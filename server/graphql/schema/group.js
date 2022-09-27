@@ -1,16 +1,16 @@
 import { gql } from 'apollo-server'
 
 export const groupTypeDefs = gql`
-	type Query {
-		groups: [Group]
-		group(id: ID!): Group
-	}
-
 	type Group {
 		id: ID!
 		name: String
 		users: [User]
 		habits: [Habit]
+	}
+
+	type Query {
+		groups: [Group]
+		group(id: ID!): Group
 	}
 
 	input GroupInput {
@@ -49,13 +49,6 @@ export const groupResolvers = {
 			return context.prisma.group.create({
 				data: {
 					name: input.name,
-					habits: {
-						connect: input.habitIds.map((habitId) => {
-							return {
-								id: habitId,
-							}
-						}),
-					},
 					users: {
 						connect: input.userIds.map((userId) => {
 							return {

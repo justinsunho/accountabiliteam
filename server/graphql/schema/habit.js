@@ -5,8 +5,8 @@ export const habitTypeDefs = gql`
 		id: ID!
 		name: String
 		records: [Record]
-		users: [User]
-		groups: [Group]
+		group: Group
+		groupId: ID
 	}
 
 	type Query {
@@ -16,6 +16,7 @@ export const habitTypeDefs = gql`
 
 	input HabitInput {
 		name: String!
+		userId: ID
 	}
 
 	type Mutation {
@@ -43,6 +44,9 @@ export const habitResolvers = {
 			return context.prisma.habit.create({
 				data: {
 					name: args.input.name,
+					group: {
+						connect: { id: args.input.userId },
+					},
 				},
 			})
 		},
