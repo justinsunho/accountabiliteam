@@ -1,6 +1,7 @@
+import AuthFlow from 'src/utilities/AuthFlow'
 import { MainLayout } from 'src/components/layouts'
-import { UserWrapper } from 'src/context/UserContext'
 import { ApolloProvider } from '@apollo/client'
+import { SessionProvider } from 'next-auth/react'
 import client from '../apollo-client'
 import 'src/styles/globals.css'
 
@@ -10,11 +11,13 @@ export default function App({
 }) {
 	return (
 		<ApolloProvider client={client}>
-			<UserWrapper>
-				<MainLayout>
-					<Component {...pageProps} />
-				</MainLayout>
-			</UserWrapper>
+			<SessionProvider session={session}>
+				<AuthFlow>
+					<MainLayout>
+						<Component {...pageProps} />
+					</MainLayout>
+				</AuthFlow>
+			</SessionProvider>
 		</ApolloProvider>
 	)
 }

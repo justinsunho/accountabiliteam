@@ -9,14 +9,17 @@ export const sessionTypeDefs = gql`
 	}
 
 	type Query {
-		session: Session
+		session(userId: String): Session
 	}
 `
 
 export const sessionResolvers = {
 	Query: {
 		session: (parent, args, context) => {
-			return context.prisma.session.findFirst({
+			return context.prisma.session.findUnique({
+				where: {
+					userId: args.userId,
+				},
 				include: { user: true },
 			})
 		},
