@@ -5,6 +5,7 @@ import Header from '../components/organisms/Header'
 import Link from 'next/link'
 import { ArrowRightIcon } from '@heroicons/react/24/solid'
 import { MainLayout } from 'src/components/layouts'
+import { LinkDirection } from '/src/components/atoms'
 
 const ALL_USERS = gql`
 	query Query {
@@ -69,12 +70,10 @@ export default function Friends() {
 		<MainLayout>
 			<Header>
 				<span></span>
-				<Link href="/">
-					<h1 className="font-bold">Accountabiliteam</h1>
-				</Link>
-				<Link href="/">
+				<h1 className="font-bold">Accountabiliteam</h1>
+				<LinkDirection href={'/'} direction={'left'}>
 					<ArrowRightIcon width="24" height="24" />
-				</Link>
+				</LinkDirection>
 			</Header>
 			<div>
 				{allUsersData &&

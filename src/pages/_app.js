@@ -5,6 +5,7 @@ import { SessionProvider } from 'next-auth/react'
 import client from '../apollo-client'
 import 'src/styles/globals.css'
 import { AnimatePresence } from 'framer-motion'
+import { DirectionProvider } from 'src/components/contexts/DirectionContext'
 
 export default function App({
 	Component,
@@ -12,18 +13,20 @@ export default function App({
 }) {
 	return (
 		<ApolloProvider client={client}>
-			<SessionProvider session={session}>
-				<AuthFlow>
-					<Header />
-					<AnimatePresence
-						exitBeforeEnter
-						initial={false}
-						onExitComplete={() => window.scrollTo(0, 0)}
-					>
-						<Component {...pageProps} />
-					</AnimatePresence>
-				</AuthFlow>
-			</SessionProvider>
+			<DirectionProvider>
+				<SessionProvider session={session}>
+					<AuthFlow>
+						<Header />
+						<AnimatePresence
+							exitBeforeEnter
+							initial={false}
+							onExitComplete={() => window.scrollTo(0, 0)}
+						>
+							<Component {...pageProps} />
+						</AnimatePresence>
+					</AuthFlow>
+				</SessionProvider>
+			</DirectionProvider>
 		</ApolloProvider>
 	)
 }
