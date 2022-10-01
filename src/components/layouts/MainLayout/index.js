@@ -1,21 +1,23 @@
-import { useSession, signIn, signOut } from 'next-auth/react'
-import Header from './Header'
-import Footer from './Footer'
+import { motion } from 'framer-motion'
+
+const variants = {
+	hidden: { x: -200, y: 0 },
+	enter: { x: 0, y: 0 },
+	exit: { x: 200, y: 0 },
+}
 
 const MainLayout = ({ children }) => {
 	return (
-		<div>
-			<Header />
-
-			<main className={'container mx-auto px-4'}>
-				<div>
-					{children}
-					<button onClick={() => signOut()}>Sign out</button>
-				</div>
-			</main>
-
-			<Footer />
-		</div>
+		<motion.div
+			className="dark container mx-auto px-4"
+			initial="hidden"
+			animate="enter"
+			exit="exit"
+			variants={variants}
+			transition={{ type: 'linear' }}
+		>
+			{children}
+		</motion.div>
 	)
 }
 

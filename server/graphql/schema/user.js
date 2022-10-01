@@ -9,8 +9,9 @@ export const userTypeDefs = gql`
 		groups: [Group]
 		image: String
 		friends: [User]
-		inFriendRequest: [User]
-		outFriendRequest: [User]
+		friendsRelations: [User]
+		inFriendRequests: [User]
+		outFriendRequests: [User]
 	}
 
 	type Query {
@@ -30,6 +31,8 @@ export const userTypeDefs = gql`
 
 	type Mutation {
 		updateUser(id: ID!, input: UserInput): User
+		sendFriendRequest(id: ID!, outFriendRequestId: ID!): User
+		removeFriendRequest(id: ID!, outFriendRequestId: ID!): User
 		deleteUser(id: ID!): User
 	}
 `
@@ -37,70 +40,49 @@ export const userTypeDefs = gql`
 export const userResolvers = {
 	Query: {
 		users: (parent, args, context) => {
-			return context.prisma.user.findMany()
+			return context.prisma.user.findMany({
+				include: {
+					friends: true,
+					inFriendRequests: true,
+					outFriendRequests: true,
+				},
+			})
 		},
 		user: (parent, args, context) => {
 			return context.prisma.user.findUnique({
 				where: { id: args.id, email: args.email },
+				include: {
+					friends: true,
+					inFriendRequests: true,
+					outFriendRequests: true,
+				},
 			})
 		},
 	},
 	Mutation: {
-		updateUser: (parent, args, context) => {
+		sendFriendRequest: (parent, args, context) => {
 			return context.prisma.user.update({
 				where: {
 					id: args.id,
 				},
 				data: {
-					name: args.input.name,
-					groups: {
-						set: args.input.groupIds.map((groupId) => {
-							return {
-								id: groupId,
-							}
-						}),
-					},
-					records: {
-						set: args.input.recordIds.map((recordId) => {
-							return {
-								id: recordId,
-							}
-						}),
-					},
-					friends: {
-						set: args.input.friendIds.map((friendId) => {
-							return {
-								id: friendId,
-							}
-						}),
-					},
-					inFriendRequest: {
-						set: args.input.inFriendRequestIds.map(
-							(inFriendRequestId) => {
-								return {
-									id: inFriendRequestId,
-								}
-							}
-						),
-					},
-					outFriendRequest: {
-						set: args.input.outFriendRequest.map(
-							(outFriendRequestId) => {
-								return {
-									id: outFriendRequestId,
-								}
-							}
-						),
+					outFriendRequests: {
+						connect: { id: args.outFriendRequestId },
 					},
 				},
 			})
 		},
-		// deleteUser: (parent, args, context) => {
-		// 	return context.prisma.user.delete({
-		// 		where: {
-		// 			id: args.id,
-		// 		},
-		// 	})
-		// },
+		removeFriendRequest: (parent, args, context) => {
+			return context.prisma.user.update({
+				where: {
+					id: args.id,
+				},
+				data: {
+					outFriendRequests: {
+						disconnect: { id: args.outFriendRequestId },
+					},
+				},
+			})
+		},
 	},
 }

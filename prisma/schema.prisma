@@ -54,12 +54,12 @@ model User {
   accounts      Account[]
   sessions      Session[]
 
-  groups           Group[]
-  records          Record[]
-  friends          User[]   @relation("friends")
-  friendsRelation  User[]   @relation("friends")
-  inFriendRequest  User[]   @relation("friendRequests")
-  outFriendRequest User[]   @relation("friendRequests")
+  groups            Group[]
+  records           Record[]
+  friends           User[]   @relation("friends")
+  friendsRelations  User[]   @relation("friends")
+  inFriendRequests  User[]   @relation("friendRequests")
+  outFriendRequests User[]   @relation("friendRequests")
 
   @@map("users")
 }
