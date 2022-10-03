@@ -6,12 +6,13 @@ const Footer = () => {
 		dark:bg-black
 		mx-auto
 		px-4
-		my-4
 		w-full
 		flex
 		flex-row
 		justify-between
 		h-16
+		fixed
+		bottom-0
 	`)
 
 	return <div className={footerClasses}></div>

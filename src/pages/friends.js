@@ -1,11 +1,7 @@
 import { gql, useQuery, useMutation } from '@apollo/client'
 import { useSession } from 'next-auth/react'
-import Image from 'next/image'
-import Header from '../components/organisms/Header'
-import Link from 'next/link'
-import { ArrowRightIcon } from '@heroicons/react/24/solid'
 import { MainLayout } from 'src/components/layouts'
-import { LinkDirection } from '/src/components/atoms'
+import { PageHeader, Avatar } from '/src/components/atoms'
 
 const ALL_USERS = gql`
 	query Query {
@@ -68,23 +64,14 @@ export default function Friends() {
 	}
 	return (
 		<MainLayout>
-			<Header>
-				<span></span>
-				<h1 className="font-bold">Accountabiliteam</h1>
-				<LinkDirection href={'/'} direction={'left'}>
-					<ArrowRightIcon width="24" height="24" />
-				</LinkDirection>
-			</Header>
+			<div>
+				<PageHeader>Friends</PageHeader>
+			</div>
 			<div>
 				{allUsersData &&
 					allUsersData.users.map((user) => (
 						<div className="flex items-start gap-x-4 py-4">
-							<Image
-								src={user.image}
-								width={40}
-								height={40}
-								className="rounded-full "
-							/>
+							<Avatar src={user.image} width={40} height={40} />
 							<div>
 								<div>{user.name}</div>
 							</div>

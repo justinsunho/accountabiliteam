@@ -1,18 +1,12 @@
 import { MainLayout } from 'src/components/layouts'
-import Header from 'src/components/organisms/Header'
-import { LinkDirection } from 'src/components/atoms'
-import { ArrowLeftIcon } from '@heroicons/react/24/solid'
+import { PageHeader } from 'src/components/atoms'
 
 export default function Profile() {
 	return (
 		<MainLayout>
-			<Header>
-				<LinkDirection href="/" direction={'right'}>
-					<ArrowLeftIcon width="24" height="24" />
-				</LinkDirection>
-				<h1 className="font-bold">Accountabiliteam</h1>
-				<span></span>
-			</Header>
+			<div>
+				<PageHeader>Profile</PageHeader>
+			</div>
 		</MainLayout>
 	)
 }

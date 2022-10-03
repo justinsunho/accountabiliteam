@@ -16,7 +16,7 @@ export const groupTypeDefs = gql`
 	input GroupInput {
 		name: String!
 		userIds: [ID]
-		habitIds: [ID]
+		habitName: String!
 	}
 
 	type Mutation {
@@ -41,6 +41,10 @@ export const groupResolvers = {
 				where: {
 					id: args.id,
 				},
+				include: {
+					habits: true,
+					users: true,
+				},
 			})
 		},
 	},
@@ -55,6 +59,13 @@ export const groupResolvers = {
 								id: userId,
 							}
 						}),
+					},
+					habits: {
+						create: [
+							{
+								name: input.habitName,
+							},
+						],
 					},
 				},
 			})

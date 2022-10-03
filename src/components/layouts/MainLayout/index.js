@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion'
 import { useDirectionContext } from 'src/components/contexts/DirectionContext'
+import Header from './Header'
+import Footer from './Footer'
 
 const variantRight = {
 	hidden: { x: -1000, y: 0 },
@@ -18,14 +20,18 @@ const MainLayout = ({ children }) => {
 
 	return (
 		<motion.div
-			className="dark container mx-auto px-4"
+			className="dark min-h-screen"
 			initial="hidden"
 			animate="enter"
 			exit="exit"
-			variants={direction === 'right' ? variantRight : variantLeft}
+			// variants={direction === 'right' ? variantRight : variantLeft}
 			transition={{ type: 'linear' }}
 		>
-			{children}
+			<Header direction={direction} />
+			<main className="container mx-auto my-4 min-h-full w-full px-4">
+				{children}
+			</main>
+			<Footer />
 		</motion.div>
 	)
 }

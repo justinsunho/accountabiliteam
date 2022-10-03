@@ -1,5 +1,5 @@
 import AuthFlow from 'src/components/utilities/AuthFlow'
-import Header from 'src/components/organisms/Header'
+import Header from 'src/components/layouts/MainLayout/Header'
 import { ApolloProvider } from '@apollo/client'
 import { SessionProvider } from 'next-auth/react'
 import client from '../apollo-client'
@@ -16,7 +16,6 @@ export default function App({
 			<DirectionProvider>
 				<SessionProvider session={session}>
 					<AuthFlow>
-						<Header />
 						<AnimatePresence
 							exitBeforeEnter
 							initial={false}

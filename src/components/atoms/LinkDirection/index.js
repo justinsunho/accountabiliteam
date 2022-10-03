@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { useDirectionContext } from 'src/components/contexts/DirectionContext'
 
 const LinkDirection = ({ children, direction, href }) => {
-	const [_, setDirection] = useDirectionContext()
+	const [, setDirection] = useDirectionContext()
 
 	return (
 		<Link href={href}>

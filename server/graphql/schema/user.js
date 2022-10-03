@@ -16,8 +16,7 @@ export const userTypeDefs = gql`
 
 	type Query {
 		users: [User]
-		user(id: ID, email: String): User
-		me: User
+		user(id: ID): User
 	}
 
 	input UserInput {
@@ -45,16 +44,18 @@ export const userResolvers = {
 					friends: true,
 					inFriendRequests: true,
 					outFriendRequests: true,
+					groups: true,
 				},
 			})
 		},
 		user: (parent, args, context) => {
 			return context.prisma.user.findUnique({
-				where: { id: args.id, email: args.email },
+				where: { id: args.id },
 				include: {
 					friends: true,
 					inFriendRequests: true,
 					outFriendRequests: true,
+					groups: true,
 				},
 			})
 		},
