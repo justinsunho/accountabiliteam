@@ -1,7 +1,7 @@
 import { gql, useQuery, useMutation } from '@apollo/client'
 import { useSession } from 'next-auth/react'
 import { MainLayout } from 'src/components/layouts'
-import { PageHeader, Avatar } from '/src/components/atoms'
+import { PageHeader, Avatar, Button } from '/src/components/atoms'
 
 const ALL_USERS = gql`
 	query Query {
@@ -80,7 +80,7 @@ export default function Friends() {
 								(inFriendRequest) =>
 									inFriendRequest.id === userId
 							).length < 1 ? (
-								<button
+								<Button
 									onClick={(e) => {
 										e.preventDefault()
 										friendRequestMutation({
@@ -92,9 +92,9 @@ export default function Friends() {
 									}}
 								>
 									Follow
-								</button>
+								</Button>
 							) : (
-								<button
+								<Button
 									onClick={(e) => {
 										e.preventDefault()
 										removeRequestMutation({
@@ -104,9 +104,10 @@ export default function Friends() {
 											},
 										})
 									}}
+									outlined
 								>
 									Request Sent
-								</button>
+								</Button>
 							)}
 						</div>
 					))}

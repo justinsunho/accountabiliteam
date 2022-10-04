@@ -1,7 +1,7 @@
 const Tab = (props) => {
 	return (
 		<div
-			className={`ml-4 p-4 ${
+			className={`p-4 hover:bg-gray-200 focus:ring active:bg-gray-300 ${
 				props.active ? `border-b-2 border-emerald-500` : ``
 			}`}
 			{...props}

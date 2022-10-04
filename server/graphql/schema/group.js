@@ -64,6 +64,13 @@ export const groupResolvers = {
 						create: [
 							{
 								name: input.habitName,
+								users: {
+									connect: input.userIds.map((userId) => {
+										return {
+											id: userId,
+										}
+									}),
+								},
 							},
 						],
 					},

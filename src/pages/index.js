@@ -40,22 +40,26 @@ export default function Home() {
 			<div>
 				<PageHeader>Home</PageHeader>
 			</div>
-			<div>
-				<Button
-					onClick={(e) => {
-						e.preventDefault()
-						setGroupModal(!open)
-					}}
-				>
-					Create Group
-				</Button>
-				{open ? (
-					<CreateGroupForm setGroupModal={setGroupModal} />
-				) : null}
-			</div>
+			{
+				<div>
+					<Button
+						onClick={(e) => {
+							e.preventDefault()
+							setGroupModal(!open)
+						}}
+					>
+						Create Group
+					</Button>
+					{open ? (
+						<CreateGroupForm setGroupModal={setGroupModal} />
+					) : null}
+				</div>
+			}
 			<div>
 				{userData?.user.groups.map((group) => (
-					<Link href={`/groups/${group.id}`}>{group.name}</Link>
+					<div>
+						<Link href={`/groups/${group.id}`}>{group.name}</Link>
+					</div>
 				))}
 			</div>
 		</MainLayout>

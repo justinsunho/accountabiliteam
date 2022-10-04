@@ -46,20 +46,20 @@ model VerificationToken {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-
+  id                String    @id @default(cuid())
+  name              String?
+  email             String?   @unique
+  emailVerified     DateTime?
+  image             String?
+  accounts          Account[]
+  sessions          Session[]
   groups            Group[]
+  habits            Habit[]
   records           Record[]
-  friends           User[]   @relation("friends")
-  friendsRelations  User[]   @relation("friends")
-  inFriendRequests  User[]   @relation("friendRequests")
-  outFriendRequests User[]   @relation("friendRequests")
+  friends           User[]    @relation("friends")
+  friendsRelations  User[]    @relation("friends")
+  inFriendRequests  User[]    @relation("friendRequests")
+  outFriendRequests User[]    @relation("friendRequests")
 
   @@map("users")
 }
@@ -77,6 +77,7 @@ model Habit {
   group   Group?   @relation(fields: [groupId], references: [id])
   groupId String?
   records Record[]
+  users   User[]
 }
 
 model Record {
@@ -84,8 +85,8 @@ model Record {
   completed Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
-  habit     Habit    @relation(fields: [habitId], references: [id])
-  habitId   String
+  habit     Habit?   @relation(fields: [habitId], references: [id])
+  habitId   String?
   user      User?    @relation(fields: [userId], references: [id])
   userId    String?
 }

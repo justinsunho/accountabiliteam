@@ -7,7 +7,12 @@ const AuthFlow = ({ children }) => {
 	return (
 		<>
 			{userId ? (
-				<div>{children}</div>
+				<div>
+					{children}
+					<div>
+						<button onClick={() => signOut()}>signout</button>
+					</div>
+				</div>
 			) : (
 				<>
 					Not signed in <br />
