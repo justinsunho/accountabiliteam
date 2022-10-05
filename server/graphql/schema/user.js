@@ -32,6 +32,9 @@ export const userTypeDefs = gql`
 		updateUser(id: ID!, input: UserInput): User
 		sendFriendRequest(id: ID!, outFriendRequestId: ID!): User
 		removeFriendRequest(id: ID!, outFriendRequestId: ID!): User
+		acceptFriendRequest(id: ID!, inFriendRequestId: ID!): User
+		denyFriendRequest(id: ID!, inFriendRequestId: ID!): User
+		removeFriend(id: ID!, friendId: ID!): User
 		deleteUser(id: ID!): User
 	}
 `
@@ -81,6 +84,67 @@ export const userResolvers = {
 				data: {
 					outFriendRequests: {
 						disconnect: { id: args.outFriendRequestId },
+					},
+				},
+			})
+		},
+		acceptFriendRequest: (parent, args, context) => {
+			return context.prisma.$transaction([
+				context.prisma.user.update({
+					where: {
+						id: args.id,
+					},
+					data: {
+						inFriendRequests: {
+							disconnect: {
+								id: args.inFriendRequestId,
+							},
+						},
+						friends: {
+							connect: {
+								id: args.inFriendRequestId,
+							},
+						},
+					},
+				}),
+				context.prisma.user.update({
+					where: {
+						id: args.inFriendRequestId,
+					},
+					data: {
+						friends: {
+							connect: {
+								id: args.id,
+							},
+						},
+					},
+				}),
+			])
+		},
+		denyFriendRequest: (parent, args, context) => {
+			return context.prisma.user.update({
+				where: {
+					id: args.id,
+				},
+				data: {
+					inFriendRequests: {
+						disconnect: {
+							id: args.inFriendRequestId,
+						},
+					},
+				},
+			})
+		},
+		removeFriend: (parent, args, context) => {
+			return context.prisma.user.update({
+				where: {
+					id: args.id,
+				},
+				data: {
+					friends: {
+						disconnect: {
+							id: args.friendId,
+						},
 					},
 				},
 			})

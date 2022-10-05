@@ -1,7 +1,13 @@
-import { gql, useQuery, useMutation } from '@apollo/client'
-import { useSession } from 'next-auth/react'
 import { MainLayout } from 'src/components/layouts'
-import { PageHeader, Avatar, Button } from '/src/components/atoms'
+import { PageHeader } from '/src/components/atoms'
+import {
+	UserPreviewFriends,
+	UserPreviewNotFriends,
+	UserPreviewFollowRequests,
+} from 'src/components/molecules'
+import { UserListContainer } from 'src/components/organisms'
+import { gql, useQuery } from '@apollo/client'
+import { useSession } from 'next-auth/react'
 
 const ALL_USERS = gql`
 	query Query {
@@ -13,6 +19,7 @@ const ALL_USERS = gql`
 			inFriendRequests {
 				id
 				name
+				image
 			}
 			outFriendRequests {
 				id
@@ -25,18 +32,19 @@ const ALL_USERS = gql`
 	}
 `
 
-const SEND_FRIEND_REQUEST = gql`
-	mutation Mutation($id: ID!, $outFriendRequestId: ID!) {
-		sendFriendRequest(id: $id, outFriendRequestId: $outFriendRequestId) {
-			name
-		}
-	}
-`
-
-const REMOVE_FRIEND_REQUEST = gql`
-	mutation Mutation($id: ID!, $outFriendRequestId: ID!) {
-		removeFriendRequest(id: $id, outFriendRequestId: $outFriendRequestId) {
-			name
+const ME = gql`
+	query User($id: ID) {
+		user(id: $id) {
+			inFriendRequests {
+				id
+				name
+				image
+			}
+			friends {
+				id
+				image
+				name
+			}
 		}
 	}
 `
@@ -46,71 +54,53 @@ export default function Friends() {
 	const userId = session?.data?.user?.id
 
 	const {
+		data: userData,
+		loading: userLoading,
+		error: userError,
+	} = useQuery(ME, {
+		variables: {
+			id: userId,
+		},
+	})
+
+	const {
 		data: allUsersData,
 		loading: allUsersLoading,
 		error: allUsersError,
 	} = useQuery(ALL_USERS)
-
-	const [friendRequestMutation] = useMutation(SEND_FRIEND_REQUEST, {
-		refetchQueries: [{ query: ALL_USERS }],
-	})
-
-	const [removeRequestMutation] = useMutation(REMOVE_FRIEND_REQUEST, {
-		refetchQueries: [{ query: ALL_USERS }],
-	})
 
 	if (allUsersLoading) {
 		return <div>Loading</div>
 	}
 	return (
 		<MainLayout>
+			<PageHeader>Friends</PageHeader>
 			<div>
-				<PageHeader>Friends</PageHeader>
+				{userData?.user.friends.length > 0 && (
+					<UserListContainer
+						title={'Friends'}
+						users={userData?.user.friends}
+						UserPreviewType={UserPreviewFriends}
+					/>
+				)}
 			</div>
 			<div>
-				{allUsersData &&
-					allUsersData.users.map((user) => (
-						<div className="flex items-start gap-x-4 py-4">
-							<Avatar src={user.image} width={40} height={40} />
-							<div>
-								<div>{user.name}</div>
-							</div>
-
-							{user?.inFriendRequests.filter(
-								(inFriendRequest) =>
-									inFriendRequest.id === userId
-							).length < 1 ? (
-								<Button
-									onClick={(e) => {
-										e.preventDefault()
-										friendRequestMutation({
-											variables: {
-												id: userId,
-												outFriendRequestId: user.id,
-											},
-										})
-									}}
-								>
-									Follow
-								</Button>
-							) : (
-								<Button
-									onClick={(e) => {
-										e.preventDefault()
-										removeRequestMutation({
-											variables: {
-												id: userId,
-												outFriendRequestId: user.id,
-											},
-										})
-									}}
-									outlined
-								>
-									Request Sent
-								</Button>
-							)}
-						</div>
-					))}
+				{userData?.user.inFriendRequests.length > 0 && (
+					<UserListContainer
+						title={'Follow Requests'}
+						users={userData?.user.inFriendRequests}
+						UserPreviewType={UserPreviewFollowRequests}
+					/>
+				)}
+			</div>
+			<div>
+				{allUsersData && (
+					<UserListContainer
+						title={'Suggested Follows'}
+						users={allUsersData.users}
+						UserPreviewType={UserPreviewNotFriends}
+					/>
+				)}
 			</div>
 		</MainLayout>
 	)
