@@ -136,18 +136,32 @@ export const userResolvers = {
 			})
 		},
 		removeFriend: (parent, args, context) => {
-			return context.prisma.user.update({
-				where: {
-					id: args.id,
-				},
-				data: {
-					friends: {
-						disconnect: {
-							id: args.friendId,
+			return context.prisma.$transaction([
+				context.prisma.user.update({
+					where: {
+						id: args.id,
+					},
+					data: {
+						friends: {
+							disconnect: {
+								id: args.friendId,
+							},
 						},
 					},
-				},
-			})
+				}),
+				context.prisma.user.update({
+					where: {
+						id: args.friendId,
+					},
+					data: {
+						friends: {
+							disconnect: {
+								id: args.id,
+							},
+						},
+					},
+				}),
+			])
 		},
 	},
 }
