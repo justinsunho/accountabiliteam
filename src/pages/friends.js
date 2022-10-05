@@ -10,21 +10,12 @@ import { gql, useQuery } from '@apollo/client'
 import { useSession } from 'next-auth/react'
 
 const ALL_USERS = gql`
-	query Query {
-		users {
+	query Users($ids: [ID!]) {
+		users(ids: $ids) {
 			id
 			email
 			name
 			image
-			inFriendRequests {
-				id
-				name
-				image
-			}
-			outFriendRequests {
-				id
-				name
-			}
 			friends {
 				id
 			}
@@ -67,7 +58,11 @@ export default function Friends() {
 		data: allUsersData,
 		loading: allUsersLoading,
 		error: allUsersError,
-	} = useQuery(ALL_USERS)
+	} = useQuery(ALL_USERS, {
+		variables: {
+			ids: userData?.user.friends.map((friend) => friend.id),
+		},
+	})
 
 	if (allUsersLoading) {
 		return <div>Loading</div>
@@ -97,7 +92,9 @@ export default function Friends() {
 				{allUsersData && (
 					<UserListContainer
 						title={'Suggested Follows'}
-						users={allUsersData.users}
+						users={allUsersData?.users.filter(
+							(user) => user.id !== user.friends.id
+						)}
 						UserPreviewType={UserPreviewNotFriends}
 					/>
 				)}

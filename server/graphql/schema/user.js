@@ -15,7 +15,7 @@ export const userTypeDefs = gql`
 	}
 
 	type Query {
-		users: [User]
+		users(ids: [ID!]): [User]
 		user(id: ID): User
 	}
 
@@ -43,6 +43,11 @@ export const userResolvers = {
 	Query: {
 		users: (parent, args, context) => {
 			return context.prisma.user.findMany({
+				where: {
+					NOT: {
+						id: { in: args.ids },
+					},
+				},
 				include: {
 					friends: true,
 					inFriendRequests: true,
