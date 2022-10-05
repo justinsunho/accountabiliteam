@@ -53,7 +53,7 @@ const FollowRequestContainer = ({ user }) => {
 	const [denyFriendRequest] = useMutation(DENY_FRIEND_REQUEST)
 
 	return (
-		<div className="flex flex-row">
+		<div className="flex flex-row gap-x-2">
 			<Button
 				icon
 				onClick={(e) => {
