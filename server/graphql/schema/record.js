@@ -132,12 +132,6 @@ export const recordResolvers = {
 				},
 				data: {
 					completed: args.input.completed,
-					habit: {
-						connect: { id: args.input.habitId },
-					},
-					user: {
-						connect: { id: args.input.userId },
-					},
 				},
 			})
 		},

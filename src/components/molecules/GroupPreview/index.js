@@ -26,17 +26,10 @@ const GroupPreview = ({ group }) => {
 			<h3 className="text-xl text-blue-600">
 				<Link href={`/groups/${group.id}`}>{group.name}</Link>
 			</h3>
-			<div>
-				<h4 className="text-lg">Habits</h4>
-				{groupData?.group.habits?.map((habit) => (
-					<div
-						key={habit.id}
-						className="flex flex-row gap-2 rounded-2xl border-2 border-gray-300 p-2"
-					>
-						<HabitPreview habit={habit} />
-					</div>
-				))}
-			</div>
+
+			{groupData?.group.habits?.map((habit) => (
+				<HabitPreview habit={habit} />
+			))}
 		</div>
 	)
 }

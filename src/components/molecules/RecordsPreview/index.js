@@ -3,16 +3,14 @@ import { Avatar } from 'src/components/atoms'
 
 const RecordsPreview = ({ record }) => {
 	return (
-		<div>
-			<Avatar
-				className={`${
-					record.completed ? 'border-2 border-emerald-500' : ''
-				}`}
-				src={record.user.image}
-				width={40}
-				height={40}
-			/>
-		</div>
+		<Avatar
+			className={`-ml-2 first:ml-0 ${
+				record.completed ? 'border-2 border-emerald-500' : ''
+			}`}
+			src={record.user.image}
+			width={24}
+			height={24}
+		/>
 	)
 }
 
