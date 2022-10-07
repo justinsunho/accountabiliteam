@@ -5,7 +5,7 @@ const RecordsPreview = ({ record }) => {
 	return (
 		<Avatar
 			className={`-ml-2 first:ml-0 ${
-				record.completed ? 'border-2 border-emerald-500' : ''
+				record.completed ? 'outline outline-2 outline-emerald-500' : ''
 			}`}
 			src={record.user.image}
 			width={24}

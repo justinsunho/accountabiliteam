@@ -36,40 +36,42 @@ const HabitPreview = ({ habit }) => {
 	const [updateRecord] = useMutation(UPDATE_TODAY_RECORD)
 
 	return (
-		<div className="mb-4 flex items-center gap-4">
+		<div
+			className="mb-4 flex items-center gap-4"
+			onClick={(e) => {
+				e.preventDefault()
+				updateRecord({
+					variables: {
+						id: userTodayRecordData?.todayRecord.id,
+						input: {
+							completed:
+								!userTodayRecordData?.todayRecord.completed,
+						},
+					},
+					refetchQueries: ['TodayRecord'],
+				})
+			}}
+		>
 			<div
 				className={`${
 					userTodayRecordData?.todayRecord.completed
-						? 'border-emerald-500'
-						: 'border-black'
-				} rounded-full border-2 `}
-				onClick={(e) => {
-					e.preventDefault()
-					updateRecord({
-						variables: {
-							id: userTodayRecordData?.todayRecord.id,
-							input: {
-								completed:
-									!userTodayRecordData?.todayRecord.completed,
-							},
-						},
-						refetchQueries: ['TodayRecord'],
-					})
-				}}
+						? 'bg-emerald-500'
+						: 'border-gray-200'
+				} rounded-full border-2 p-1`}
 			>
 				<CheckIcon
-					height="32"
-					width="32"
+					height="24"
+					width="24"
 					className={`${
 						userTodayRecordData?.todayRecord.completed
-							? 'text-emerald-500'
-							: 'text-black-900'
+							? ' text-white'
+							: 'invisible'
 					}`}
 				/>
 			</div>
 			<div>
 				<h4 className="font-semibold">{habit.name}</h4>
-				<div className="flex flex-row items-start">
+				<div className="flex flex-row items-center">
 					{habit.records.map((record) => (
 						<RecordsPreview key={record.id} record={record} />
 					))}
