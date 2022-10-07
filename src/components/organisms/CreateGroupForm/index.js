@@ -63,13 +63,14 @@ const CreateGroupForm = ({ setGroupModal }) => {
 	}
 
 	return (
-		<div className="absolute inset-0 h-full w-full bg-gray-600/80 ">
+		<div className="absolute inset-0 z-50 h-full w-full bg-gray-600/80">
 			<div
 				className={
-					'fixed left-1/2 top-8 m-4 w-full max-w-xs -translate-x-1/2 rounded bg-white p-4 shadow-md'
+					'fixed left-1/2 top-8 m-4 flex w-full max-w-xs -translate-x-1/2 flex-col rounded bg-white p-4 shadow-md'
 				}
 			>
 				<XMarkIcon
+					className={'self-end'}
 					width="24"
 					height="24"
 					onClick={(e) => {

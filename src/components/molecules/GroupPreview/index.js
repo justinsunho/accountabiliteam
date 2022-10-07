@@ -1,5 +1,6 @@
 import HabitPreview from 'src/components/molecules/HabitPreview'
 import Link from 'next/link'
+import { ArrowSmallRightIcon } from '@heroicons/react/24/solid'
 import { gql, useQuery } from '@apollo/client'
 
 const GROUP = gql`
@@ -23,16 +24,29 @@ const GroupPreview = ({ group, className }) => {
 	})
 	return (
 		<div
-			className={`${className} mb-4 rounded-2xl border-2 border-gray-300 p-4`}
+			className={`${className} justify-stretch mb-8 flex flex flex-col flex-col items-stretch overflow-hidden  rounded-2xl shadow-md transition hover:-translate-y-2 hover:shadow-xl`}
 		>
-			<h3 className="text-xl">{group.name}</h3>
+			<div className={'h-full p-4'}>
+				<h3 className="self-center text-xl font-semibold">
+					{group.name}
+				</h3>
 
-			{groupData?.group.habits?.map((habit) => (
-				<HabitPreview habit={habit} />
-			))}
-			<a className={' text-blue-600'}>
+				{groupData?.group.habits?.map((habit) => (
+					<HabitPreview habit={habit} />
+				))}
+			</div>
+			<div
+				className={
+					'group flex items-center bg-emerald-500 p-4 font-semibold text-white hover:bg-emerald-600'
+				}
+			>
 				<Link href={`/groups/${group.id}`}>See Group</Link>
-			</a>
+				<ArrowSmallRightIcon
+					className="transition group-hover:translate-x-1"
+					height="24"
+					width="24"
+				/>
+			</div>
 		</div>
 	)
 }

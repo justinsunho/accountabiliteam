@@ -70,7 +70,7 @@ const HabitPreview = ({ habit }) => {
 				/>
 			</div>
 			<div>
-				<h4 className="font-semibold">{habit.name}</h4>
+				<h4 className="">{habit.name}</h4>
 				<div className="flex flex-row items-center">
 					{habit.records.map((record) => (
 						<RecordsPreview key={record.id} record={record} />
