@@ -10,20 +10,20 @@ const Header = ({ children }) => {
 		<header className="shadow-md ">
 			<div className="container mx-auto flex w-full flex-row items-center justify-between px-4">
 				<div>
-					<h1 class="font-bold">Accountabiliteam</h1>
+					<h1 className="font-bold">Accountabiliteam</h1>
 				</div>
 				<div className="flex flex-row">
-					<Tab active={router.pathname == '/'}>
+					<Tab active={router.pathname === '/'}>
 						<Link href="/">
 							<HomeIcon weight="24" height="24" />
 						</Link>
 					</Tab>
-					<Tab active={router.pathname == '/friends'}>
+					<Tab active={router.pathname === '/friends'}>
 						<Link href="/friends">
 							<UsersIcon width="24" height="24" />
 						</Link>
 					</Tab>
-					<Tab active={router.pathname == '/profile'}>
+					<Tab active={router.pathname === '/profile'}>
 						<Link href="/profile">
 							<UserIcon weight="24" height="24" />
 						</Link>

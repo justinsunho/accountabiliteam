@@ -1,10 +1,9 @@
 import { useState } from 'react'
 import { Button, PageHeader } from '/src/components/atoms'
+import { CreateGroupForm, GroupPreviewList } from '/src/components/organisms'
 import { MainLayout } from 'src/components/layouts'
 import { useSession } from 'next-auth/react'
 import { gql, useQuery } from '@apollo/client'
-import { CreateGroupForm } from '/src/components/organisms'
-import Link from 'next/link'
 
 const ME = gql`
 	query User($id: ID) {
@@ -12,8 +11,8 @@ const ME = gql`
 			name
 			email
 			groups {
-				name
 				id
+				name
 			}
 		}
 	}
@@ -37,30 +36,29 @@ export default function Home() {
 
 	return (
 		<MainLayout>
-			<div>
-				<PageHeader>Home</PageHeader>
-			</div>
-			{
+			<div className="mb-8 flex flex-row items-center justify-between">
 				<div>
-					<Button
-						onClick={(e) => {
-							e.preventDefault()
-							setGroupModal(!open)
-						}}
-					>
-						Create Group
-					</Button>
-					{open ? (
-						<CreateGroupForm setGroupModal={setGroupModal} />
-					) : null}
+					<PageHeader>Home</PageHeader>
 				</div>
-			}
-			<div>
-				{userData?.user.groups.map((group) => (
+				{
 					<div>
-						<Link href={`/groups/${group.id}`}>{group.name}</Link>
+						<Button
+							onClick={(e) => {
+								e.preventDefault()
+								setGroupModal(!open)
+							}}
+						>
+							Create Group
+						</Button>
+						{open ? (
+							<CreateGroupForm setGroupModal={setGroupModal} />
+						) : null}
 					</div>
-				))}
+				}
+			</div>
+			<div>
+				<h2 className="mb-4 text-xl font-semibold">Groups</h2>
+				<GroupPreviewList groups={userData?.user.groups} />
 			</div>
 		</MainLayout>
 	)

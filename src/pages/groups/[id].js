@@ -10,6 +10,10 @@ const GROUP_QUERY = gql`
 		group(id: $groupId) {
 			id
 			name
+			users {
+				id
+				name
+			}
 			habits {
 				id
 				name
@@ -33,6 +37,11 @@ export default function GroupPage() {
 			<div>{id}</div>
 			<span>{data?.group.name}</span>
 			<span>{data?.group.habits.map((habit) => habit.name)}</span>
+			<span>
+				{data?.group.users.map((user) => (
+					<div>{user.name}</div>
+				))}
+			</span>
 		</MainLayout>
 	)
 }

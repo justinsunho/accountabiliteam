@@ -52,7 +52,12 @@ export const userResolvers = {
 					friends: true,
 					inFriendRequests: true,
 					outFriendRequests: true,
-					groups: true,
+					groups: {
+						include: {
+							habits: true,
+							users: true,
+						},
+					},
 				},
 			})
 		},
@@ -63,7 +68,20 @@ export const userResolvers = {
 					friends: true,
 					inFriendRequests: true,
 					outFriendRequests: true,
-					groups: true,
+					groups: {
+						include: {
+							habits: {
+								include: {
+									records: {
+										include: {
+											user: true,
+										},
+									},
+								},
+							},
+							users: true,
+						},
+					},
 				},
 			})
 		},

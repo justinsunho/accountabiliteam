@@ -5,7 +5,7 @@ import * as cron from 'node-cron'
 
 const prisma = new PrismaClient()
 
-cron.schedule('0 0 0 * * *', () => {
+cron.schedule('0 21 0 * * *', () => {
 	main()
 		.then(async () => {
 			await prisma.$disconnect()
@@ -18,7 +18,6 @@ cron.schedule('0 0 0 * * *', () => {
 })
 
 async function main() {
-	console.log('I ran')
 	const habits = await prisma.habit.findMany({
 		include: {
 			users: true,

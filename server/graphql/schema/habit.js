@@ -4,6 +4,7 @@ export const habitTypeDefs = gql`
 	type Habit {
 		id: ID!
 		name: String
+		users: [User]
 		records: [Record]
 		group: Group
 		groupId: ID
@@ -35,6 +36,14 @@ export const habitResolvers = {
 			return context.prisma.habit.findUnique({
 				where: {
 					id: args.id,
+				},
+				include: {
+					records: {
+						include: {
+							user: true,
+						},
+					},
+					users: true,
 				},
 			})
 		},

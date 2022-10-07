@@ -1,17 +1,32 @@
 import { gql } from 'apollo-server'
+import { GraphQLScalarType, Kind } from 'graphql'
+
+const dateScalar = new GraphQLScalarType({
+	name: 'Date',
+	description: 'Date custom scalar type',
+	serialize(value) {
+		return value.getTime() // Convert outgoing Date to integer for JSON
+	},
+	parseValue(value) {
+		return new Date(value) // Convert incoming integer to Date
+	},
+	parseLiteral(ast) {
+		if (ast.kind === Kind.INT) {
+			return new Date(parseInt(ast.value, 10)) // Convert hard-coded AST string to integer and then to Date
+		}
+		return null // Invalid hard-coded value (not an integer)
+	},
+})
 
 export const recordTypeDefs = gql`
-	type Query {
-		records: [Record]
-		record(id: ID!): Record
-	}
+	scalar Date
 
 	type Record {
 		id: ID!
 		habit: Habit
 		completed: Boolean
-		createdAt: String
-		updatedAt: String
+		createdAt: Date
+		updatedAt: Date
 		user: User
 		userId: ID
 		habitId: ID
@@ -23,6 +38,12 @@ export const recordTypeDefs = gql`
 		userId: ID
 	}
 
+	type Query {
+		records: [Record]
+		todayRecord(input: RecordInput): Record
+		todayRecords(input: RecordInput): [Record]
+	}
+
 	type Mutation {
 		createRecord(input: RecordInput): Record
 		updateRecord(id: ID!, input: RecordInput): Record
@@ -30,15 +51,62 @@ export const recordTypeDefs = gql`
 	}
 `
 
+const today = new Date()
+today.setHours(0, 0, 0, 0)
+const endOfDay = new Date()
+endOfDay.setHours(23, 59, 59, 999)
+
 export const recordResolvers = {
+	Date: dateScalar,
 	Query: {
 		records: (parent, args, context) => {
 			return context.prisma.record.findMany()
 		},
-		record: (parent, args, context) => {
-			return context.prisma.record.findUnique({
+		todayRecord: (parent, args, context) => {
+			return context.prisma.record.findFirst({
 				where: {
-					id: args.id,
+					AND: [
+						{
+							habitId: {
+								equals: args.input.habitId,
+							},
+						},
+						{
+							userId: {
+								equals: args.input.userId,
+							},
+						},
+						{
+							createdAt: {
+								gte: today,
+								lte: endOfDay,
+							},
+						},
+					],
+				},
+			})
+		},
+		todayRecords: (parent, args, context) => {
+			return context.prisma.record.findMany({
+				where: {
+					AND: [
+						{
+							habitId: {
+								equals: args.input.habitId,
+							},
+						},
+						{
+							createdAt: {
+								gte: today,
+								lte: endOfDay,
+							},
+						},
+					],
+					NOT: {
+						userId: {
+							equals: args.input.userId,
+						},
+					},
 				},
 			})
 		},

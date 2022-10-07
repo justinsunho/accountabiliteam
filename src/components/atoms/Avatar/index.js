@@ -2,13 +2,12 @@ import Image from 'next/image'
 
 const Avatar = (props) => {
 	return (
-		<Image
-			{...props}
-			src={props.src}
-			width={props.width}
-			height={props.height}
-			className={`rounded-full ${props.className}`}
-		/>
+		<div
+			className={`rounded-full ${props.className} relative`}
+			style={{ height: props.height, width: props.width }}
+		>
+			<Image layout="fill" className="rounded-full" src={props.src} />
+		</div>
 	)
 }
 

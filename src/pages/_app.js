@@ -17,7 +17,7 @@ export default function App({
 				<SessionProvider session={session}>
 					<AuthFlow>
 						<AnimatePresence
-							exitBeforeEnter
+							mode="wait"
 							initial={false}
 							onExitComplete={() => window.scrollTo(0, 0)}
 						>
