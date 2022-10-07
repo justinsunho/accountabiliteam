@@ -24,7 +24,7 @@ const GroupPreview = ({ group, className }) => {
 	})
 	return (
 		<div
-			className={`${className} flex flex-col overflow-hidden  rounded-2xl shadow-md transition hover:-translate-y-2 hover:shadow-xl`}
+			className={`${className} flex flex-col overflow-hidden rounded-2xl  shadow-md transition hover:-translate-y-2 hover:shadow-xl`}
 		>
 			<div className={'flex h-full flex-col p-4'}>
 				<h3 className="mb-2 text-xl font-semibold">{group.name}</h3>

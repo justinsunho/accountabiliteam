@@ -90,6 +90,18 @@ export const groupResolvers = {
 										}
 									}),
 								},
+								records: {
+									create: input.userIds.map((userId) => {
+										return {
+											completed: false,
+											user: {
+												connect: {
+													id: userId,
+												},
+											},
+										}
+									}),
+								},
 							},
 						],
 					},
