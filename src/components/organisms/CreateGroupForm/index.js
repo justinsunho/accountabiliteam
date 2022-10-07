@@ -70,7 +70,7 @@ const CreateGroupForm = ({ setGroupModal }) => {
 				}
 			>
 				<XMarkIcon
-					className={'self-end'}
+					className={'cursor-pointer self-end'}
 					width="24"
 					height="24"
 					onClick={(e) => {
