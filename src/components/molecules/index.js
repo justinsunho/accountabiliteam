@@ -5,6 +5,8 @@ import UserPreviewFriends from './UserPreviewFriends'
 import GroupPreview from './GroupPreview'
 import HabitPreview from './HabitPreview'
 import RecordsPreview from './RecordsPreview'
+import UserGroupPreview from './UserGroupPreview'
+import HabitGroupPreview from './HabitGroupPreview'
 
 export {
 	UserPreview,
@@ -14,4 +16,6 @@ export {
 	GroupPreview,
 	HabitPreview,
 	RecordsPreview,
+	UserGroupPreview,
+	HabitGroupPreview,
 }

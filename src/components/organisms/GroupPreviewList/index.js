@@ -2,7 +2,7 @@ import { GroupPreview } from 'src/components/molecules'
 
 const GroupPreviewList = ({ groups }) => {
 	return (
-		<div className={'align-start grid gap-4 md:grid-cols-3'}>
+		<div className={'align-start grid gap-4 md:grid-cols-2'}>
 			{groups?.map((group) => (
 				<GroupPreview key={group.id} group={group} />
 			))}

@@ -10,7 +10,7 @@ export const groupTypeDefs = gql`
 
 	type Query {
 		groups: [Group]
-		group(id: ID!): Group
+		group(id: ID!, gte: Date, lte: Date): Group
 	}
 
 	input GroupInput {
@@ -25,11 +25,6 @@ export const groupTypeDefs = gql`
 		deleteGroup(id: ID!): Group
 	}
 `
-
-const today = new Date()
-today.setHours(0, 0, 0, 0)
-const endOfDay = new Date()
-endOfDay.setHours(23, 59, 59, 999)
 
 export const groupResolvers = {
 	Query: {
@@ -52,8 +47,8 @@ export const groupResolvers = {
 							records: {
 								where: {
 									createdAt: {
-										gte: today,
-										lte: endOfDay,
+										gte: args.gte,
+										lte: args.lte,
 									},
 								},
 								include: {

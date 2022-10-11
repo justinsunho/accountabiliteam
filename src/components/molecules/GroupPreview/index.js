@@ -2,10 +2,11 @@ import HabitPreview from 'src/components/molecules/HabitPreview'
 import Link from 'next/link'
 import { ArrowSmallRightIcon } from '@heroicons/react/24/solid'
 import { gql, useQuery } from '@apollo/client'
+import dayjs from 'dayjs'
 
 const GROUP = gql`
-	query Group($groupId: ID!) {
-		group(id: $groupId) {
+	query Group($groupId: ID!, $gte: Date, $lte: Date) {
+		group(id: $groupId, gte: $gte, lte: $lte) {
 			name
 			id
 			habits {
@@ -20,6 +21,8 @@ const GroupPreview = ({ group, className }) => {
 	const { data: groupData } = useQuery(GROUP, {
 		variables: {
 			groupId: group.id,
+			gte: dayjs().startOf('d'),
+			lte: dayjs().endOf('d'),
 		},
 	})
 	return (

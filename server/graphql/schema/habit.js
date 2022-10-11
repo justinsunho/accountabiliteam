@@ -27,6 +27,11 @@ export const habitTypeDefs = gql`
 	}
 `
 
+const today = new Date()
+today.setHours(0, 0, 0, 0)
+const endOfDay = new Date()
+endOfDay.setHours(23, 59, 59, 999)
+
 export const habitResolvers = {
 	Query: {
 		habits: (parent, args, context) => {
@@ -39,11 +44,16 @@ export const habitResolvers = {
 				},
 				include: {
 					records: {
+						where: {
+							createdAt: {
+								gte: today,
+								lte: endOfDay,
+							},
+						},
 						include: {
 							user: true,
 						},
 					},
-					users: true,
 				},
 			})
 		},

@@ -1,7 +1,7 @@
 import { gql, useQuery } from '@apollo/client'
 import { useRouter } from 'next/router'
 import { MainLayout } from 'src/components/layouts'
-import user from 'src/components/utilities/me'
+import { ArrowLeftIcon } from '@heroicons/react/24/solid'
 
 const USER_QUERY = gql`
 	query User($userId: ID!) {
@@ -24,6 +24,8 @@ export default function GroupPage() {
 
 	return (
 		<MainLayout>
+			<ArrowLeftIcon width={24} height={24} />
+
 			<div>{data?.user.name}</div>
 		</MainLayout>
 	)

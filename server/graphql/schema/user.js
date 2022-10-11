@@ -8,6 +8,7 @@ export const userTypeDefs = gql`
 		records: [Record]
 		groups: [Group]
 		image: String
+		habits: [Habit]
 		friends: [User]
 		friendsRelations: [User]
 		inFriendRequests: [User]
@@ -17,6 +18,7 @@ export const userTypeDefs = gql`
 	type Query {
 		users(ids: [ID!]): [User]
 		user(id: ID): User
+		userByGroup(id: ID, groupId: ID): User
 	}
 
 	input UserInput {
@@ -38,6 +40,11 @@ export const userTypeDefs = gql`
 		deleteUser(id: ID!): User
 	}
 `
+
+const today = new Date()
+today.setHours(0, 0, 0, 0)
+const endOfDay = new Date()
+endOfDay.setHours(23, 59, 59, 999)
 
 export const userResolvers = {
 	Query: {
@@ -80,6 +87,35 @@ export const userResolvers = {
 								},
 							},
 							users: true,
+						},
+					},
+				},
+			})
+		},
+		userByGroup: (parent, args, context) => {
+			return context.prisma.user.findUnique({
+				where: {
+					id: args.id,
+					groupId: args.groupid,
+				},
+				include: {
+					habits: {
+						where: {
+							groupId: args.groupId,
+						},
+						include: {
+							records: {
+								where: {
+									userId: args.id,
+									createdAt: {
+										gte: today,
+										lte: endOfDay,
+									},
+								},
+								include: {
+									user: true,
+								},
+							},
 						},
 					},
 				},
