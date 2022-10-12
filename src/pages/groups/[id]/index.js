@@ -9,6 +9,8 @@ import {
 	ArrowLeftIcon,
 	SquaresPlusIcon,
 	ArrowRightIcon,
+	PencilIcon,
+	UserGroupIcon,
 } from '@heroicons/react/24/solid'
 import Link from 'next/link'
 import dayjs from 'dayjs'
@@ -67,14 +69,16 @@ export default function GroupPage() {
 			</div>
 			<div className="flex justify-between">
 				<div>
-					<Link href={`/groups/${id}/members`}>Members</Link>
+					<Link href={`/groups/${id}/members`}>
+						<UserGroupIcon height={24} width={24} />
+					</Link>
 				</div>
 				<div
 					onClick={() => {
 						setEdit(!edit)
 					}}
 				>
-					Edit
+					<PencilIcon height={24} width={24} />
 				</div>
 			</div>
 			<div className="mx-auto mb-8 flex items-center justify-center gap-2">
@@ -102,7 +106,7 @@ export default function GroupPage() {
 							<ArrowRightIcon height="16" width="16" />
 						</button>
 					) : (
-						''
+						<div style={{ height: 24, width: 16 }} />
 					)}
 				</div>
 			</div>

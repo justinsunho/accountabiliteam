@@ -9,7 +9,7 @@ import {
 	ArrowLeftIcon,
 	PencilIcon,
 	XMarkIcon,
-	PlusIcon,
+	UserPlusIcon,
 } from '@heroicons/react/24/solid'
 
 const GROUP_QUERY = gql`
@@ -61,7 +61,7 @@ export default function GroupPage() {
 				</div>
 			</div>
 			<div className="mb-4">
-				<PlusIcon
+				<UserPlusIcon
 					onClick={(e) => {
 						e.preventDefault()
 						setMembersModal(true)
