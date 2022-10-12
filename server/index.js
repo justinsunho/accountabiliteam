@@ -5,7 +5,7 @@ import * as cron from 'node-cron'
 
 const prisma = new PrismaClient()
 
-cron.schedule('0 45 11 * * *', () => {
+cron.schedule('0 17 10 * * *', () => {
 	main()
 		.then(async () => {
 			await prisma.$disconnect()

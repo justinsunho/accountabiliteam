@@ -1,12 +1,21 @@
-import { Avatar } from 'src/components/atoms'
+import { Avatar, Button } from 'src/components/atoms'
 import dayjs from 'dayjs'
+import { TrashIcon } from '@heroicons/react/24/solid'
 
-const HabitGroupPreview = ({ habit }) => {
+const HabitGroupPreview = ({ habit, edit }) => {
 	return (
 		<div className="mb-8">
-			<h3 className="mb-4 text-center text-4xl font-semibold">
-				{habit.name}
-			</h3>
+			<div className="mb-4 flex items-center justify-between text-2xl font-semibold">
+				<div>
+					<h3 className="">{habit.name}</h3>
+					<div>2/3</div>
+				</div>
+				{edit && (
+					<Button icon>
+						<TrashIcon height={24} width={24} />
+					</Button>
+				)}
+			</div>
 			<div>
 				{habit.records.map((record) => (
 					<div

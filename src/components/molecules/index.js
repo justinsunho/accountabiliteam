@@ -7,6 +7,7 @@ import HabitPreview from './HabitPreview'
 import RecordsPreview from './RecordsPreview'
 import UserGroupPreview from './UserGroupPreview'
 import HabitGroupPreview from './HabitGroupPreview'
+import Modal from './Modal'
 
 export {
 	UserPreview,
@@ -18,4 +19,5 @@ export {
 	RecordsPreview,
 	UserGroupPreview,
 	HabitGroupPreview,
+	Modal,
 }

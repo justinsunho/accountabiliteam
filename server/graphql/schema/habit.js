@@ -17,7 +17,8 @@ export const habitTypeDefs = gql`
 
 	input HabitInput {
 		name: String!
-		userId: ID
+		userIds: [ID]
+		groupId: ID
 	}
 
 	type Mutation {
@@ -64,7 +65,21 @@ export const habitResolvers = {
 				data: {
 					name: args.input.name,
 					group: {
-						connect: { id: args.input.userId },
+						connect: { id: args.input.groupId },
+					},
+					users: {
+						connect: args.input.userIds.map((userId) => {
+							return {
+								id: userId,
+							}
+						}),
+					},
+					records: {
+						create: args.input.userIds.map((userId) => {
+							return {
+								userId: userId,
+							}
+						}),
 					},
 				},
 			})
