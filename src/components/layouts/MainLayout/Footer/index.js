@@ -20,7 +20,7 @@ const Footer = () => {
 	return (
 		<div className={footerClasses}>
 			<div className={'container mx-auto px-4'}>
-				<Button onClick={() => signOut()}>signout</Button>
+				<Button onClick={() => signOut()}>Sign Out</Button>
 			</div>
 		</div>
 	)
