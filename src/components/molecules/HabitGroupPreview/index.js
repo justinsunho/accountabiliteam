@@ -22,7 +22,6 @@ const HabitGroupPreview = ({ habit, edit, groupQuery }) => {
 			<div className="mb-4 flex items-center justify-between text-2xl font-semibold">
 				<div>
 					<h3 className="">{habit.name}</h3>
-					<div>2/3</div>
 				</div>
 				{edit && (
 					<Button
