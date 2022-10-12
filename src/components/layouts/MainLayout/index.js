@@ -31,7 +31,7 @@ const MainLayout = ({ children }) => {
 			<main className="container mx-auto my-4 min-h-full w-full px-4">
 				{children}
 			</main>
-			{/* <Footer /> */}
+			<Footer />
 		</motion.div>
 	)
 }

@@ -1,4 +1,6 @@
 import { signIn, signOut, useSession } from 'next-auth/react'
+import { MainLayout } from 'src/components/layouts'
+import { Button } from 'src/components/atoms'
 
 const AuthFlow = ({ children }) => {
 	const session = useSession()
@@ -7,17 +9,14 @@ const AuthFlow = ({ children }) => {
 	return (
 		<>
 			{userId ? (
-				<div>
-					{children}
-					<div>
-						<button onClick={() => signOut()}>signout</button>
-					</div>
-				</div>
+				<>{children}</>
 			) : (
-				<>
-					Not signed in <br />
-					<button onClick={() => signIn()}>Sign in</button>
-				</>
+				<div className="container m-auto mt-8 p-4">
+					<h1 className="mb-4 text-5xl font-semibold">
+						Not Signed In
+					</h1>
+					<Button onClick={() => signIn()}>Sign in</Button>
+				</div>
 			)}
 		</>
 	)
