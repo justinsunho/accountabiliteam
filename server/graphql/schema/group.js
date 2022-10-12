@@ -23,6 +23,8 @@ export const groupTypeDefs = gql`
 		createGroup(input: GroupInput): Group
 		updateGroup(id: ID!, input: GroupInput): Group
 		deleteGroup(id: ID!): Group
+		removeMemberGroup(id: ID, userId: ID): Group
+		addMemberGroup(id: ID, userIds: [ID]): Group
 	}
 `
 
@@ -131,6 +133,34 @@ export const groupResolvers = {
 			return context.prisma.group.delete({
 				where: {
 					id: args.id,
+				},
+			})
+		},
+		removeMemberGroup: (parent, args, context) => {
+			return context.prisma.group.update({
+				where: {
+					id: args.id,
+				},
+				data: {
+					users: {
+						disconnect: [{ id: args.userId }],
+					},
+				},
+			})
+		},
+		addMemberGroup: (parent, args, context) => {
+			return context.prisma.group.update({
+				where: {
+					id: args.id,
+				},
+				data: {
+					users: {
+						connect: args.userIds.map((userId) => {
+							return {
+								id: userId,
+							}
+						}),
+					},
 				},
 			})
 		},

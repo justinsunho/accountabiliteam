@@ -15,18 +15,19 @@ const ME = gql`
 	}
 `
 
-const CREATE_GROUP = gql`
-	mutation CreateGroup($input: GroupInput) {
-		createGroup(input: $input) {
-			name
-			id
+const ADD_MEMBERS = gql`
+	mutation AddMemberGroup($addMemberGroupId: ID, $userIds: [ID]) {
+		addMemberGroup(id: $addMemberGroupId, userIds: $userIds) {
+			users {
+				name
+			}
 		}
 	}
 `
 
-const CreateGroupForm = ({ setGroupModal }) => {
-	const [createGroupMutation, { data, error, loading }] =
-		useMutation(CREATE_GROUP)
+const AddMembersForm = ({ setMembersModal, groupId, groupQuery }) => {
+	const [addMembersMutation, { data, error, loading }] =
+		useMutation(ADD_MEMBERS)
 
 	const session = useSession()
 	const userId = session?.data?.user?.id
@@ -49,38 +50,20 @@ const CreateGroupForm = ({ setGroupModal }) => {
 	} = useForm()
 
 	const onSubmit = (data) => {
-		createGroupMutation({
+		addMembersMutation({
 			variables: {
-				input: {
-					userIds: [userId, ...data.userIds],
-					name: data.name,
-					habitName: data.habitName,
-				},
+				userIds: data.userIds,
+				addMemberGroupId: groupId,
 			},
+			refetchQueries: [groupQuery],
 		})
 
-		setGroupModal(0)
+		setMembersModal(false)
 	}
 
 	return (
-		<Modal setModal={setGroupModal}>
+		<Modal setModal={setMembersModal}>
 			<form onSubmit={handleSubmit(onSubmit)} className="">
-				<div>
-					<label>Name</label>
-					<input
-						className="focus:shadow-outline mb-2 w-full rounded border py-2 px-4 shadow focus:outline-none"
-						{...register('name', { required: true })}
-					/>
-					{errors.name && <span>This field is required</span>}
-				</div>
-				<div>
-					<label>Habit</label>
-					<input
-						className="focus:shadow-outline mb-2 w-full rounded border py-2 px-4 shadow focus:outline-none"
-						{...register('habitName', { required: true })}
-					/>
-					{errors.habitName && <span>This field is required</span>}
-				</div>
 				<div>
 					<label>Users</label>
 					<select
@@ -104,4 +87,4 @@ const CreateGroupForm = ({ setGroupModal }) => {
 	)
 }
 
-export default CreateGroupForm
+export default AddMembersForm

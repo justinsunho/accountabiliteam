@@ -11,9 +11,12 @@ const CREATE_HABIT_MUTATION = gql`
 	}
 `
 
-const CreateHabitForm = ({ setHabitModal, userIds, groupId }) => {
-	const [createGroupMutation, { data, error, loading }] = useMutation(
-		CREATE_HABIT_MUTATION
+const CreateHabitForm = ({ setHabitModal, userIds, groupId, groupQuery }) => {
+	const [createHabitMutation, { data, error, loading }] = useMutation(
+		CREATE_HABIT_MUTATION,
+		{
+			refetchQueries: [groupQuery],
+		}
 	)
 
 	const {
@@ -24,7 +27,7 @@ const CreateHabitForm = ({ setHabitModal, userIds, groupId }) => {
 	} = useForm()
 
 	const onSubmit = (data) => {
-		createGroupMutation({
+		createHabitMutation({
 			variables: {
 				input: {
 					userIds: userIds,

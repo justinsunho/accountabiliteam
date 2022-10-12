@@ -1,8 +1,22 @@
 import { Avatar, Button } from 'src/components/atoms'
 import dayjs from 'dayjs'
 import { TrashIcon } from '@heroicons/react/24/solid'
+import { gql, useMutation } from '@apollo/client'
 
-const HabitGroupPreview = ({ habit, edit }) => {
+const DELETE_HABIT_MUTATION = gql`
+	mutation DeleteHabit($deleteHabitId: ID!) {
+		deleteHabit(id: $deleteHabitId) {
+			name
+		}
+	}
+`
+
+const HabitGroupPreview = ({ habit, edit, groupQuery }) => {
+	const [deleteHabitMutation] = useMutation(DELETE_HABIT_MUTATION, {
+		variables: { deleteHabitId: habit.id },
+		refetchQueries: [groupQuery],
+	})
+
 	return (
 		<div className="mb-8">
 			<div className="mb-4 flex items-center justify-between text-2xl font-semibold">
@@ -11,7 +25,13 @@ const HabitGroupPreview = ({ habit, edit }) => {
 					<div>2/3</div>
 				</div>
 				{edit && (
-					<Button icon>
+					<Button
+						icon
+						onClick={(e) => {
+							e.preventDefault()
+							deleteHabitMutation()
+						}}
+					>
 						<TrashIcon height={24} width={24} />
 					</Button>
 				)}

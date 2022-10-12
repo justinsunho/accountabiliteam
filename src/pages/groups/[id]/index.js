@@ -42,7 +42,6 @@ export default function GroupPage() {
 	const [day, setDay] = useState(dayjs())
 	const [habitModal, setHabitModal] = useState(false)
 	const [edit, setEdit] = useState(false)
-	const [userModal, setUserModal] = useState(false)
 
 	const router = useRouter()
 	const { id } = router.query
@@ -68,14 +67,7 @@ export default function GroupPage() {
 			</div>
 			<div className="flex justify-between">
 				<div>
-					<div
-						className="text-blue-400 hover:text-blue-500 hover:underline"
-						onClick={() => {
-							setUserModal(!userModal)
-						}}
-					>
-						Members
-					</div>
+					<Link href={`/groups/${id}/members`}>Members</Link>
 				</div>
 				<div
 					onClick={() => {
@@ -85,22 +77,6 @@ export default function GroupPage() {
 					Edit
 				</div>
 			</div>
-			{userModal && (
-				<Modal setModal={setUserModal}>
-					<h3 className="mb-2 font-semibold">Members</h3>
-					{data?.group.users.map((user) => (
-						<div className="mb-2 flex">
-							<Avatar
-								className={`mr-2`}
-								src={user.image}
-								width={24}
-								height={24}
-							/>
-							<div>{user.name}</div>
-						</div>
-					))}
-				</Modal>
-			)}
 			<div className="mx-auto mb-8 flex items-center justify-center gap-2">
 				<div className="text-left">
 					<button
@@ -141,22 +117,27 @@ export default function GroupPage() {
 					>
 						<SquaresPlusIcon width={24} height={24} />
 					</Button>
-					{habitModal ? (
-						<CreateHabitForm
-							setHabitModal={setHabitModal}
-							userIds={data?.group.users.map((user) => user.id)}
-							groupId={id}
-						/>
-					) : null}
 				</div>
 			)}
 			<div>
 				{data?.group.habits.map((habit) => (
 					<div>
-						<HabitGroupPreview habit={habit} edit={edit} />
+						<HabitGroupPreview
+							habit={habit}
+							edit={edit}
+							groupQuery={GROUP_QUERY}
+						/>
 					</div>
 				))}
 			</div>
+			{habitModal ? (
+				<CreateHabitForm
+					setHabitModal={setHabitModal}
+					userIds={data?.group.users.map((user) => user.id)}
+					groupId={id}
+					groupQuery={GROUP_QUERY}
+				/>
+			) : null}
 		</MainLayout>
 	)
 }
