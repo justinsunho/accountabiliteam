@@ -64,6 +64,8 @@ const CreateGroupForm = ({ setGroupModal }) => {
 
 	return (
 		<Modal setModal={setGroupModal}>
+			<h3 className="text-3xl font-semibold">Create Group</h3>
+
 			<form onSubmit={handleSubmit(onSubmit)} className="">
 				<div>
 					<label>Name</label>

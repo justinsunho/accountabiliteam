@@ -37,6 +37,7 @@ const REMOVE_MEMBER = gql`
 
 export default function GroupPage() {
 	const [membersModal, setMembersModal] = useState(false)
+	const [edit, setEdit] = useState(false)
 
 	const router = useRouter()
 	const { id } = router.query
@@ -57,19 +58,28 @@ export default function GroupPage() {
 					{`${data?.group.name} Members`}
 				</h2>
 				<div className="justify-self-end">
-					<PencilIcon width={24} height={24} />
+					<PencilIcon
+						onClick={(e) => {
+							e.preventDefault()
+							setEdit(!edit)
+						}}
+						width={24}
+						height={24}
+					/>
 				</div>
 			</div>
 			<div className="mb-4">
-				<UserPlusIcon
-					onClick={(e) => {
-						e.preventDefault()
-						setMembersModal(true)
-					}}
-					className=" ml-auto"
-					width={24}
-					height={24}
-				/>
+				{edit && (
+					<UserPlusIcon
+						onClick={(e) => {
+							e.preventDefault()
+							setMembersModal(true)
+						}}
+						className=" ml-auto"
+						width={24}
+						height={24}
+					/>
+				)}
 			</div>
 			<div>
 				{data?.group.users.map((user) => (
@@ -85,21 +95,23 @@ export default function GroupPage() {
 							</div>
 							<div className="text-xl">{user.name}</div>
 						</div>
-						<Button
-							icon
-							onClick={(e) => {
-								e.preventDefault()
-								removeMember({
-									variables: {
-										removeMemberGroupId: id,
-										userId: user.id,
-									},
-									refetchQueries: [GROUP_QUERY],
-								})
-							}}
-						>
-							<XMarkIcon weight="24" height="24" />
-						</Button>
+						{edit && (
+							<Button
+								icon
+								onClick={(e) => {
+									e.preventDefault()
+									removeMember({
+										variables: {
+											removeMemberGroupId: id,
+											userId: user.id,
+										},
+										refetchQueries: [GROUP_QUERY],
+									})
+								}}
+							>
+								<XMarkIcon weight="24" height="24" />
+							</Button>
+						)}
 					</div>
 				))}
 			</div>

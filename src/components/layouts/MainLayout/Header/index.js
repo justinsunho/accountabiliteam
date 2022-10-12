@@ -23,11 +23,11 @@ const Header = ({ children }) => {
 							<UsersIcon width="24" height="24" />
 						</Link>
 					</Tab>
-					<Tab active={router.pathname === '/profile'}>
+					{/* <Tab active={router.pathname === '/profile'}>
 						<Link href="/profile">
 							<UserIcon weight="24" height="24" />
 						</Link>
-					</Tab>
+					</Tab> */}
 				</div>
 			</div>
 		</header>

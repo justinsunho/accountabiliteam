@@ -5,7 +5,7 @@ const Modal = ({ children, setModal }) => {
 		<div className="absolute inset-0 z-50 h-full w-full bg-gray-600/80">
 			<div
 				className={
-					'container fixed left-1/2 top-8 m-4 flex -translate-x-1/2 flex-col rounded bg-white p-4 shadow-md'
+					'container fixed flex h-full flex-col bg-white p-4 shadow-md  md:top-8 md:left-1/2 md:m-4 md:h-auto md:-translate-x-1/2 md:rounded'
 				}
 			>
 				<XMarkIcon

@@ -42,6 +42,7 @@ const CreateHabitForm = ({ setHabitModal, userIds, groupId, groupQuery }) => {
 
 	return (
 		<Modal setModal={setHabitModal}>
+			<h3 className="text-3xl font-semibold">Create Habit</h3>
 			<form onSubmit={handleSubmit(onSubmit)} className="">
 				<div>
 					<label>Name</label>

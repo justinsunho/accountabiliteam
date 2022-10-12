@@ -63,6 +63,7 @@ const AddMembersForm = ({ setMembersModal, groupId, groupQuery }) => {
 
 	return (
 		<Modal setModal={setMembersModal}>
+			<h3 className="text-3xl font-semibold">Add Members</h3>
 			<form onSubmit={handleSubmit(onSubmit)} className="">
 				<div>
 					<label>Users</label>
