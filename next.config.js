@@ -10,4 +10,11 @@ module.exports = {
 			'lh6.googleusercontent.com',
 		],
 	},
+	webpackDevMiddleware: (config) => {
+		config.watchOptions = {
+			poll: 1000,
+			aggregateTimeout: 300,
+		}
+		return config
+	},
 }

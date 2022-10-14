@@ -1,0 +1,56 @@
+# Set the version of docker compose to use
+version: '3.9'
+
+# The containers that compose the project
+services:
+  apollo:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: "postgresql://prisma:prisma@db:5432/tests"
+    ports:
+      - '4000:4000'
+    depends_on:
+      - db
+    command: sh -c "npx prisma migrate dev  && npm run start"
+    platform: linux/amd64
+    env_file:
+      - .env
+    volumes:
+      - ./:/app
+  next:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    environment:
+      GOOGLE_CLIENT_ID: '935081229327-vru728nf1incfjutcvfnk6g56kop6tm2.apps.googleusercontent.com'
+      GOOGLE_CLIENT_SECRET: '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'
+      SECRET: 'cgXbtQS3vJLPTvoHOBxWtyg7p7B2wk5egXggHNTBeDQ'
+      APOLLO_URI: 'http://localhost:4000/graphql'
+    ports:
+      - '3000:3000'
+    links:
+      - apollo:apollo
+    depends_on:
+      - apollo
+      - db
+    command: sh -c 'npx prisma generate && npm run dev'
+    platform: linux/amd64
+    volumes:
+      - ./:/app
+      - /app/node_modules
+      - /app/.next
+  db:
+    image: postgres:13
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: prisma
+      POSTGRES_PASSWORD: prisma
+      POSTGRES_DB: tests
+    platform: linux/amd64
+    volumes:
+      - db-volume:/var/lib/postgresql/data
+volumes:
+  db-volume:
