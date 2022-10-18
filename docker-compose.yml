@@ -24,10 +24,10 @@ services:
       context: ./
       dockerfile: Dockerfile
     environment:
-      GOOGLE_CLIENT_ID: '935081229327-vru728nf1incfjutcvfnk6g56kop6tm2.apps.googleusercontent.com'
-      GOOGLE_CLIENT_SECRET: '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'
-      SECRET: 'cgXbtQS3vJLPTvoHOBxWtyg7p7B2wk5egXggHNTBeDQ'
-      APOLLO_URI: 'http://localhost:4000/graphql'
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      SECRET: ${SECRET}
+      APOLLO_URI: ${APOLLO_URI}
     ports:
       - '3000:3000'
     links:
